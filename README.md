@@ -19,5 +19,3 @@ Shopping at Wallywood is as easy as 1-2-3:
 1. **Browse**: Explore our vast collection using the search bar or genre filters.  
 2. **Add to Cart**: Found the perfect poster? Add it to your cart and customize the size/format if needed.  
 3. **Checkout**: Securely pay and sit back while we deliver your chosen posters to your door!
-
----
