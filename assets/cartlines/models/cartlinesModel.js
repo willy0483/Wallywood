@@ -1,21 +1,21 @@
 import { supabase } from "../../../config/configSupabase.js";
 
 /**
- * This class is responsible for handling all the database operations related to the posters table.
+ * This class is responsible for handling all the database operations related to the cartlines table.
  */
-export class posterModel {
+export class cartlinesModel {
   /**
-   * This class is responsible for handling all the database operations related to the posters table.
+   * This class is responsible for handling all the database operations related to the cartlines table.
    */
   static async getAllRecords() {
     try {
-      const { data, error } = await supabase.from("poster").select("*");
+      const { data, error } = await supabase.from("cartlines").select("*");
       if (error) {
         throw error;
       }
       return data;
     } catch (error) {
-      console.error("Error in posterModel.getAllRecords: ", error.message);
+      console.error("Error in cartlinesModel.getAllRecords: ", error.message);
     }
   }
 
@@ -27,7 +27,7 @@ export class posterModel {
   static async getRecordById(id) {
     try {
       const { data, error } = await supabase
-        .from("poster")
+        .from("cartlines")
         .select("*")
         .eq("id", id)
         .single();
@@ -35,9 +35,11 @@ export class posterModel {
       if (error) {
         throw error;
       }
+      console.log(data);
+
       return data;
     } catch (error) {
-      console.error("Error in posterModel.getRecordById: ", error.message);
+      console.error("Error in cartlinesModel.getRecordById: ", error.message);
     }
   }
 
@@ -49,17 +51,11 @@ export class posterModel {
   static createRecord = async (formdata) => {
     try {
       const { data, error } = await supabase
-        .from("poster")
+        .from("cartlines")
         .insert({
-          id: formdata.id,
-          name: formdata.name,
-          slug: formdata.slug,
-          description: formdata.description,
-          image: formdata.image,
-          width: formdata.width,
-          height: formdata.height,
-          price: formdata.price,
-          stock: formdata.stock,
+          user_id: formdata.user_id,
+          poster_id: formdata.poster_id,
+          quantity: formdata.quantity,
         })
         .select()
         .single();
@@ -68,7 +64,7 @@ export class posterModel {
       }
       return data;
     } catch (error) {
-      console.error("Error in posterModel.createRecord: ", error.message);
+      console.error("Error in cartlinesModel.createRecord: ", error.message);
     }
   };
 
@@ -80,39 +76,32 @@ export class posterModel {
   static updateRecord = async (formdata) => {
     try {
       const { data, error } = await supabase
-        .from("poster")
+        .from("cartlines")
         .update({
-          name: formdata.name,
-          slug: formdata.slug,
-          description: formdata.description,
-          image: formdata.image,
-          width: formdata.width,
-          height: formdata.height,
-          price: formdata.price,
-          stock: formdata.stock,
+          user_id: formdata.user_id,
+          poster_id: formdata.poster_id,
+          quantity: formdata.quantity,
         })
         .eq("id", formdata.id)
-        .select()
-        .single();
+        .select();
       if (error) {
         throw error;
       }
       console.log(data);
-
+      console.log("formdata:", formdata);
       return data;
     } catch (error) {
-      console.error("Error in posterModel.updateRecord: ", error);
+      console.error("Error in cartlinesModel.updateRecord: ", error);
     }
   };
-
   /**
-   * delete a poster
+   * delete a cartlines
    * @param {object} formdata
    */
   static deleteRecord = async (formdata) => {
     try {
       const { data, error } = await supabase
-        .from("poster")
+        .from("cartlines")
         .delete()
         .select("*")
         .eq("id", formdata.id);
@@ -122,7 +111,7 @@ export class posterModel {
       console.log(data);
       return data;
     } catch (error) {
-      console.error("Error in posterModel.deleteRecord: ", error.message);
+      console.error("Error in cartlinesModel.deleteRecord: ", error.message);
     }
   };
 }

@@ -1,21 +1,24 @@
 import { supabase } from "../../../config/configSupabase.js";
 
 /**
- * This class is responsible for handling all the database operations related to the posters table.
+ * This class is responsible for handling all the database operations related to the userprofiles table.
  */
-export class posterModel {
+export class userprofilesModel {
   /**
-   * This class is responsible for handling all the database operations related to the posters table.
+   * This class is responsible for handling all the database operations related to the userprofiles table.
    */
   static async getAllRecords() {
     try {
-      const { data, error } = await supabase.from("poster").select("*");
+      const { data, error } = await supabase.from("userprofiles").select("*");
       if (error) {
         throw error;
       }
       return data;
     } catch (error) {
-      console.error("Error in posterModel.getAllRecords: ", error.message);
+      console.error(
+        "Error in userprofilesModel.getAllRecords: ",
+        error.message
+      );
     }
   }
 
@@ -27,7 +30,7 @@ export class posterModel {
   static async getRecordById(id) {
     try {
       const { data, error } = await supabase
-        .from("poster")
+        .from("userprofiles")
         .select("*")
         .eq("id", id)
         .single();
@@ -35,9 +38,14 @@ export class posterModel {
       if (error) {
         throw error;
       }
+      console.log(data);
+
       return data;
     } catch (error) {
-      console.error("Error in posterModel.getRecordById: ", error.message);
+      console.error(
+        "Error in userprofilesModel.getRecordById: ",
+        error.message
+      );
     }
   }
 
@@ -49,17 +57,14 @@ export class posterModel {
   static createRecord = async (formdata) => {
     try {
       const { data, error } = await supabase
-        .from("poster")
+        .from("userprofiles")
         .insert({
-          id: formdata.id,
-          name: formdata.name,
-          slug: formdata.slug,
-          description: formdata.description,
-          image: formdata.image,
-          width: formdata.width,
-          height: formdata.height,
-          price: formdata.price,
-          stock: formdata.stock,
+          user_id: formdata.user_id,
+          firstname: formdata.firstname,
+          lastname: formdata.lastname,
+          birthdate: formdata.birthdate,
+          gender: formdata.gender,
+          position: formdata.position,
         })
         .select()
         .single();
@@ -68,7 +73,7 @@ export class posterModel {
       }
       return data;
     } catch (error) {
-      console.error("Error in posterModel.createRecord: ", error.message);
+      console.error("Error in userprofilesModel.createRecord: ", error.message);
     }
   };
 
@@ -80,39 +85,35 @@ export class posterModel {
   static updateRecord = async (formdata) => {
     try {
       const { data, error } = await supabase
-        .from("poster")
+        .from("userprofiles")
         .update({
-          name: formdata.name,
-          slug: formdata.slug,
-          description: formdata.description,
-          image: formdata.image,
-          width: formdata.width,
-          height: formdata.height,
-          price: formdata.price,
-          stock: formdata.stock,
+          user_id: formdata.user_id,
+          firstname: formdata.firstname,
+          lastname: formdata.lastname,
+          birthdate: formdata.birthdate,
+          gender: formdata.gender,
+          position: formdata.position,
         })
         .eq("id", formdata.id)
-        .select()
-        .single();
+        .select();
       if (error) {
         throw error;
       }
       console.log(data);
-
+      console.log("formdata:", formdata);
       return data;
     } catch (error) {
-      console.error("Error in posterModel.updateRecord: ", error);
+      console.error("Error in userprofilesModel.updateRecord: ", error);
     }
   };
-
   /**
-   * delete a poster
+   * delete a userprofiles
    * @param {object} formdata
    */
   static deleteRecord = async (formdata) => {
     try {
       const { data, error } = await supabase
-        .from("poster")
+        .from("userprofiles")
         .delete()
         .select("*")
         .eq("id", formdata.id);
@@ -122,7 +123,7 @@ export class posterModel {
       console.log(data);
       return data;
     } catch (error) {
-      console.error("Error in posterModel.deleteRecord: ", error.message);
+      console.error("Error in userprofilesModel.deleteRecord: ", error.message);
     }
   };
 }

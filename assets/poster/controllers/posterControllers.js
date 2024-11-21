@@ -30,3 +30,10 @@ posterControllers.put("/poster", async (req, res) => {
   console.log(data);
   res.status(200).send(data);
 });
+
+// delete a poster
+posterControllers.delete("/poster", async (req, res) => {
+  const data = await posterModel.deleteRecord(req.body);
+  console.log(req.body);
+  res.send(data);
+});

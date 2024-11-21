@@ -1,21 +1,24 @@
 import { supabase } from "../../../config/configSupabase.js";
 
 /**
- * This class is responsible for handling all the database operations related to the posters table.
+ * This class is responsible for handling all the database operations related to the genreposterrel table.
  */
-export class posterModel {
+export class genreposterrelModel {
   /**
-   * This class is responsible for handling all the database operations related to the posters table.
+   * This class is responsible for handling all the database operations related to the genreposterrel table.
    */
   static async getAllRecords() {
     try {
-      const { data, error } = await supabase.from("poster").select("*");
+      const { data, error } = await supabase.from("genreposterrel").select("*");
       if (error) {
         throw error;
       }
       return data;
     } catch (error) {
-      console.error("Error in posterModel.getAllRecords: ", error.message);
+      console.error(
+        "Error in genreposterrelModel.getAllRecords: ",
+        error.message
+      );
     }
   }
 
@@ -27,7 +30,7 @@ export class posterModel {
   static async getRecordById(id) {
     try {
       const { data, error } = await supabase
-        .from("poster")
+        .from("genreposterrel")
         .select("*")
         .eq("id", id)
         .single();
@@ -35,9 +38,14 @@ export class posterModel {
       if (error) {
         throw error;
       }
+      console.log(data);
+
       return data;
     } catch (error) {
-      console.error("Error in posterModel.getRecordById: ", error.message);
+      console.error(
+        "Error in genreposterrelModel.getRecordById: ",
+        error.message
+      );
     }
   }
 
@@ -49,17 +57,11 @@ export class posterModel {
   static createRecord = async (formdata) => {
     try {
       const { data, error } = await supabase
-        .from("poster")
+        .from("genreposterrel")
         .insert({
           id: formdata.id,
-          name: formdata.name,
-          slug: formdata.slug,
-          description: formdata.description,
-          image: formdata.image,
-          width: formdata.width,
-          height: formdata.height,
-          price: formdata.price,
-          stock: formdata.stock,
+          genre_id: formdata.genre_id,
+          poster_id: formdata.poster_id,
         })
         .select()
         .single();
@@ -68,7 +70,10 @@ export class posterModel {
       }
       return data;
     } catch (error) {
-      console.error("Error in posterModel.createRecord: ", error.message);
+      console.error(
+        "Error in genreposterrelModel.createRecord: ",
+        error.message
+      );
     }
   };
 
@@ -80,39 +85,31 @@ export class posterModel {
   static updateRecord = async (formdata) => {
     try {
       const { data, error } = await supabase
-        .from("poster")
+        .from("genreposterrel")
         .update({
-          name: formdata.name,
-          slug: formdata.slug,
-          description: formdata.description,
-          image: formdata.image,
-          width: formdata.width,
-          height: formdata.height,
-          price: formdata.price,
-          stock: formdata.stock,
+          genre_id: formdata.genre_id,
+          poster_id: formdata.poster_id,
         })
         .eq("id", formdata.id)
-        .select()
-        .single();
+        .select();
       if (error) {
         throw error;
       }
       console.log(data);
-
+      console.log("formdata:", formdata);
       return data;
     } catch (error) {
-      console.error("Error in posterModel.updateRecord: ", error);
+      console.error("Error in genreposterrelModel.updateRecord: ", error);
     }
   };
-
   /**
-   * delete a poster
+   * delete a genreposterrel
    * @param {object} formdata
    */
   static deleteRecord = async (formdata) => {
     try {
       const { data, error } = await supabase
-        .from("poster")
+        .from("genreposterrel")
         .delete()
         .select("*")
         .eq("id", formdata.id);
@@ -122,7 +119,10 @@ export class posterModel {
       console.log(data);
       return data;
     } catch (error) {
-      console.error("Error in posterModel.deleteRecord: ", error.message);
+      console.error(
+        "Error in genreposterrelModel.deleteRecord: ",
+        error.message
+      );
     }
   };
 }

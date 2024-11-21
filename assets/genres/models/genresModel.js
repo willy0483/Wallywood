@@ -1,21 +1,21 @@
 import { supabase } from "../../../config/configSupabase.js";
 
 /**
- * This class is responsible for handling all the database operations related to the posters table.
+ * This class is responsible for handling all the database operations related to the genres table.
  */
-export class posterModel {
+export class genresModel {
   /**
-   * This class is responsible for handling all the database operations related to the posters table.
+   * This class is responsible for handling all the database operations related to the genres table.
    */
   static async getAllRecords() {
     try {
-      const { data, error } = await supabase.from("poster").select("*");
+      const { data, error } = await supabase.from("genres").select("*");
       if (error) {
         throw error;
       }
       return data;
     } catch (error) {
-      console.error("Error in posterModel.getAllRecords: ", error.message);
+      console.error("Error in genresModel.getAllRecords: ", error.message);
     }
   }
 
@@ -27,7 +27,7 @@ export class posterModel {
   static async getRecordById(id) {
     try {
       const { data, error } = await supabase
-        .from("poster")
+        .from("genres")
         .select("*")
         .eq("id", id)
         .single();
@@ -35,9 +35,11 @@ export class posterModel {
       if (error) {
         throw error;
       }
+      console.log(data);
+
       return data;
     } catch (error) {
-      console.error("Error in posterModel.getRecordById: ", error.message);
+      console.error("Error in genresModel.getRecordById: ", error.message);
     }
   }
 
@@ -49,17 +51,11 @@ export class posterModel {
   static createRecord = async (formdata) => {
     try {
       const { data, error } = await supabase
-        .from("poster")
+        .from("genres")
         .insert({
           id: formdata.id,
-          name: formdata.name,
+          title: formdata.title,
           slug: formdata.slug,
-          description: formdata.description,
-          image: formdata.image,
-          width: formdata.width,
-          height: formdata.height,
-          price: formdata.price,
-          stock: formdata.stock,
         })
         .select()
         .single();
@@ -68,7 +64,7 @@ export class posterModel {
       }
       return data;
     } catch (error) {
-      console.error("Error in posterModel.createRecord: ", error.message);
+      console.error("Error in genresModel.createRecord: ", error.message);
     }
   };
 
@@ -80,39 +76,31 @@ export class posterModel {
   static updateRecord = async (formdata) => {
     try {
       const { data, error } = await supabase
-        .from("poster")
+        .from("genres")
         .update({
-          name: formdata.name,
+          title: formdata.title,
           slug: formdata.slug,
-          description: formdata.description,
-          image: formdata.image,
-          width: formdata.width,
-          height: formdata.height,
-          price: formdata.price,
-          stock: formdata.stock,
         })
         .eq("id", formdata.id)
-        .select()
-        .single();
+        .select();
       if (error) {
         throw error;
       }
       console.log(data);
-
+      console.log("formdata:", formdata);
       return data;
     } catch (error) {
-      console.error("Error in posterModel.updateRecord: ", error);
+      console.error("Error in genresModel.updateRecord: ", error);
     }
   };
-
   /**
-   * delete a poster
+   * delete a genres
    * @param {object} formdata
    */
   static deleteRecord = async (formdata) => {
     try {
       const { data, error } = await supabase
-        .from("poster")
+        .from("genres")
         .delete()
         .select("*")
         .eq("id", formdata.id);
@@ -122,7 +110,7 @@ export class posterModel {
       console.log(data);
       return data;
     } catch (error) {
-      console.error("Error in posterModel.deleteRecord: ", error.message);
+      console.error("Error in genresModel.deleteRecord: ", error.message);
     }
   };
 }
